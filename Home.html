@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EmpowerHer - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }  
+    body { font-family: 'Poppins', sans-serif; background: #fff; color: #333; }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 5%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      z-index: 100;
+    }
+    nav .logo { font-size: 1.8rem; font-weight: 700; color: #d81b60; }
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li { display: inline-block; }
+    nav ul li a { text-decoration: none; font-weight: 600; color: #6a1b9a; padding: 8px 14px; transition: 0.3s; border-radius: 5px; }
+    nav ul li a:hover { background: #fce4ec; color: #d81b60; }
+    .nav-actions button { margin-left: 10px; padding: 8px 16px; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+    .login-btn { background: transparent; border: 1.5px solid #d81b60; color: #d81b60; }
+    .login-btn:hover { background: #d81b60; color: white; }
+    .signup-btn { background: #d81b60; color: white; }
+    .signup-btn:hover { background: #b0154b; }
+    .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: #6a1b9a; }
+
+    @media (max-width: 768px) {
+      nav ul { position: absolute; top: 70px; right: 0; background: white; flex-direction: column; width: 200px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 10px 0; }
+      nav ul li { width: 100%; text-align: center; }
+      nav ul li a { display: block; padding: 10px; }
+      nav ul.active { display: flex; }
+      .menu-toggle { display: block; }
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 90vh;
+      background: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(rgba(156, 39, 176, 0.6), rgba(216, 27, 96, 0.6));
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; animation: fadeInUp 1.5s ease; }
+    .hero-content h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero-content p { font-size: 1.3rem; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Footer */
+    footer { background: #2c003e; color: #fce4ec; padding: 40px 5%; font-family: 'Poppins', sans-serif; }
+    footer h2, footer h3 { color: #ff79a4; }
+    footer a { color: #fce4ec; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: #d81b60; }
+
+    /* Floating Chatbot */
+    #floating-chatbot { position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: 'Poppins', sans-serif; }
+    #chatButton { background: #d81b60; color: white; padding: 14px 20px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+    #chatButton:hover { background: #b0154b; transform: scale(1.05); }
+    #chatBox { width: 360px; max-height: 450px; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); display: none; flex-direction: column; overflow: hidden; margin-top: 10px; }
+    #chatHeader { background: #d81b60; color: white; padding: 12px; text-align: center; font-weight: 600; }
+    .chat-window { flex: 1; padding: 10px; overflow-y: auto; background: #fefefe; border-top: 1px solid #eee; border-bottom: 1px solid #eee; scroll-behavior: smooth; }
+    .message { margin: 10px 0; max-width: 80%; padding: 10px 14px; border-radius: 16px; line-height: 1.5; animation: fadeIn 0.3s ease-in; }
+    .bot { background: #f0f0f0; align-self: flex-start; text-align: left; margin-right: auto; }
+    .user { background: #ffd2e0; align-self: flex-end; text-align: right; margin-left: auto; }
+    .typing { font-style: italic; color: #999; font-size: 0.9rem; padding: 5px 10px; }
+    #chatInputArea { display: flex; padding: 10px; }
+    #chatInputArea input { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid #ccc; outline: none; }
+    #chatInputArea button { margin-left: 8px; padding: 8px 12px; border-radius: 20px; border: none; background: #d81b60; color: white; cursor: pointer; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">EmpowerHer</div>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <ul>
+      <li><a href="S.html">Home</a></li>
+      <li><a href="cooking.html">Home Delight</a></li>
+      <li><a href="aaa.html">Job Bridge</a></li>
+      <li><a href="r.html">Profile Maker</a></li>
+      <li><a href="cc.html">Cycle Sense</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="login-btn" onclick="window.location.href='auth.html'">Login</button>
+      <button class="signup-btn" onclick="window.location.href='auth.html'">Sign Up</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Empowering Women Everywhere</h1>
+      <p>Building confidence, skills, and opportunities for every woman.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
+      <div style="flex: 1 1 250px; min-width: 250px;">
+        <h2>EmpowerHer</h2>
+        <p>Empowering women through technology, education, and opportunity. Join us in shaping a brighter future.</p>
+        <div style="margin-top: 20px;">&copy; 2025 EmpowerHer. All rights reserved.</div>
+      </div>
+      <div style="flex: 1 1 180px; min-width: 180px;">
+        <h3>Quick Links</h3>
+        <ul style="list-style: none; padding: 0; line-height: 2;">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learning.html">Learning</a></li>
+          <li><a href="calorie.html">Calorie Calculator</a></li>
+          <li><a href="cc.html">Period Tracker</a></li>
+          <li><a href="r.html">Resume</a></li>
+          <li><a href="chatbot.html">Chatbot</a></li>
+        </ul>
+      </div>
+      <div style="flex: 1 1 250px; min-width: 250px;">
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:support@empowerher.org">support@empowerher.org</a><br>
+           Phone: <a href="tel:+1234567890">+1 (234) 567-890</a><br>
+           Address: 123 Empower St., Dream City</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Women’s Health Chatbot -->
+  <div id="floating-chatbot">
+    <div id="chatButton">💬 Chat with Us</div>
+    <div id="chatBox">
+      <div id="chatHeader">🌸 Women's Health Assistant</div>
+      <div class="chat-window" id="chat-window">
+        <div class="message bot"><strong>Bot:</strong> Hi! I'm here to support your health journey 💕<br>Ask me anything about periods, PCOS, nutrition, stress, or more.</div>
+      </div>
+      <div id="chatInputArea">
+        <input type="text" id="user-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.querySelector('nav ul');
+      menu.classList.toggle('active');
+    }
+
+    const chatButton = document.getElementById('chatButton');
+    const chatBox = document.getElementById('chatBox');
+    const chatMessages = document.getElementById('chat-window');
+    const userInput = document.getElementById('user-input');
+
+    chatButton.addEventListener('click', () => {
+      chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+   const responses = {
+  "hi": "Hi there! 💕 How are you feeling today? You can share anything about your health, mood, or lifestyle.",
+  "hello": "Hello! 🌸 I'm your women's health assistant. Are you here to track your cycle, check symptoms, or get wellness tips?",
+  "not good": "I'm sorry to hear that 😢. Can you tell me more about what's bothering you? Stress, pain, mood, or something else?",
+  "sad": "It's okay to feel sad sometimes 🌼. Try taking a deep breath, talking to someone you trust, or doing something small that makes you happy. Do you want some tips to lift your mood?",
+  "happy": "Yay! 😊 I'm glad you're feeling good. Remember, maintaining healthy habits keeps your body and mind happy!",
+  "stressed": "Stress can affect both body and mind 💖. Try deep breathing, meditation, light exercise, or even journaling. Do you want me to suggest a quick stress relief routine?",
+  "tired": "Feeling tired? 😴 Make sure you get enough sleep (7-9 hours), stay hydrated, and take short breaks during the day. Gentle stretches can help too!",
+  "anxious": "Anxiety can feel overwhelming 🌸. Try grounding exercises, deep breathing, or taking a short walk. Talking to someone you trust can also help.",
+  "pain": "I'm sorry you're in pain 😔. Can you tell me where it hurts? For mild pain, rest, hydration, or a warm compress can help. If severe, please consult a healthcare professional.",
+  "headache": "For headaches, rest in a quiet, dark room, stay hydrated, and avoid excessive screen time. If persistent, check with a doctor.",
+  "back pain": "Gentle stretching, proper posture, and short breaks from sitting can help with back pain. If severe, please consult a doctor.",
+  "period": "Tracking your cycle helps manage symptoms and predict your next period 🌸. Drink water, rest, and apply a warm compress if needed.",
+  "late period": "A late period can happen due to stress, hormonal changes, or lifestyle factors. If it persists for more than a week or two, consider consulting a doctor.",
+  "irregular periods": "Irregular cycles are common, especially during hormonal changes. Maintaining a balanced diet, exercising, and tracking your cycle regularly can help.",
+  "pcos": "PCOS affects hormone levels and may cause irregular cycles, acne, or weight changes. Regular exercise, healthy eating, and consulting a doctor for personalized care is recommended.",
+  "menopause": "Menopause is a natural transition 🌼. Hot flashes, mood swings, and sleep changes are common. Healthy habits and regular checkups can make this stage easier.",
+  "nutrition": "Eat a balanced diet with fruits, vegetables, whole grains, and protein 💪. Limit sugar, processed foods, and stay hydrated.",
+  "mental": "Mental health is important 🌸. Talking to someone, journaling, meditation, and practicing self-care can improve well-being.",
+  "exercise": "Regular exercise helps your body and mind. Try yoga, walking, dancing, or strength training at least 3-4 times a week.",
+  "hydration": "Drink at least 6–8 glasses of water daily 💧. Hydration helps energy, digestion, and skin health.",
+  "sleep": "Aim for 7–9 hours of quality sleep nightly 😴. Avoid screens before bed and try a consistent sleep schedule.",
+  "self-care": "Self-care can include rest, hobbies, meditation, or pampering yourself. Even small daily practices make a big difference 🌸.",
+  "motivation": "Remember, every small step towards better health matters 💕. Keep taking care of yourself—you’re doing amazing!",
+  "thanks": "You're welcome! 😊 Always prioritize your well-being and reach out whenever you need support.",
+  "default": "I’m here to help with women's health, periods, PCOS, nutrition, mental health, and wellness tips 🌸. Can you try asking something more specific?"
+};
+
+    function sendMessage() {
+      const text = userInput.value.trim().toLowerCase();
+      if (!text) return;
+
+      chatMessages.innerHTML += `<div class="message user"><strong>You:</strong> ${text}</div>`;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      const typingBubble = `<div class="message bot typing" id="typing">Bot is typing...</div>`;
+      chatMessages.innerHTML += typingBubble;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      setTimeout(() => {
+        document.getElementById('typing').remove();
+        let reply = responses["default"];
+        for (const key in responses) {
+          if (text.includes(key)) { reply = responses[key]; break; }
+        }
+        chatMessages.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${reply}</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 800);
+
+      userInput.value = "";
+    }
+  </script>
+
+</body>
+</html>

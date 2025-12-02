@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculate your daily calories</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #fce4ec, #f8bbd0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #c2185b;
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+      color: #880e4f;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #f8bbd0;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      background: #fff7f9;
+    }
+
+    button {
+      width: 100%;
+      background-color: #d81b60;
+      color: white;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ad1457;
+    }
+
+    button.view-btn {
+      background-color: #c2185b;
+    }
+
+    #message {
+      text-align: center;
+      color: green;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .affirmation {
+      background: #ffe3f1;
+      color: #c2185b;
+      padding: 14px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      font-style: italic;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.1);
+    }
+
+    .history-section {
+      margin-top: 25px;
+      background: #fce4ec;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 12px rgba(255, 105, 180, 0.1);
+    }
+
+    .history-section h3 {
+      text-align: center;
+      color: #ad1457;
+      margin-bottom: 15px;
+    }
+
+    .entry {
+      background: white;
+      border-left: 5px solid #ec407a;
+      margin-bottom: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 Calculate your daily calories</h1>
+
+    <div class="affirmation" id="dailyAffirmation"></div>
+
+    <label>💧 Water Intake (Litres):</label>
+    <input type="number" id="waterInput" placeholder="e.g., 2" />
+
+    <label>🍳 Breakfast:</label>
+    <input type="text" id="breakfastInput" placeholder="e.g., Dosa" />
+
+    <label>🍛 Lunch:</label>
+    <input type="text" id="lunchInput" placeholder="e.g., Rice, Sambar" />
+
+    <label>🥗 Dinner:</label>
+    <input type="text" id="dinnerInput" placeholder="e.g., Upma" />
+
+    <button onclick="saveData()">💾 Save Today's Record</button>
+    <p id="message"></p>
+
+    <button onclick="viewWeeklyData()" class="view-btn">📊 View Weekly History</button>
+
+    <div id="weeklyHistory" class="history-section"></div>
+  </div>
+
+  <!-- Firebase SDK and Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBu9JfIfxYUNXyiqZfmxm_k1956eZA_Rlw",
+      authDomain: "empowerher-bb634.firebaseapp.com",
+      projectId: "empowerher-bb634",
+      storageBucket: "empowerher-bb634.appspot.com",
+      messagingSenderId: "711485894004",
+      appId: "1:711485894004:web:e08cc005fa2f7159cdd021",
+      measurementId: "G-QRZQ35XZSZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const foodCalories = {
+      idli: 60,
+      dosa: 150,
+      rice: 130,
+      sambar: 100,
+      upma: 180,
+      poha: 200,
+      chapati: 100,
+      paratha: 250,
+      curd: 80,
+      dal: 120,
+      roti: 110
+    };
+
+    function calculateCalories(foodString) {
+      const items = foodString.toLowerCase().split(/[\s,]+/);
+      let total = 0;
+      for (let item of items) {
+        if (foodCalories[item]) {
+          total += foodCalories[item];
+        }
+      }
+      return total;
+    }
+
+    // Save data
+    window.saveData = async function () {
+      const water = document.getElementById("waterInput").value;
+      const breakfast = document.getElementById("breakfastInput").value;
+      const lunch = document.getElementById("lunchInput").value;
+      const dinner = document.getElementById("dinnerInput").value;
+      const today = new Date().toISOString().split("T")[0];
+
+      if (!water || !breakfast || !lunch || !dinner) {
+        document.getElementById("message").textContent = "❗Please fill in all fields.";
+        return;
+      }
+
+      const calories =
+        calculateCalories(breakfast) +
+        calculateCalories(lunch) +
+        calculateCalories(dinner);
+
+      try {
+        await addDoc(collection(db, "healthTracker"), {
+          date: today,
+          water,
+          breakfast,
+          lunch,
+          dinner,
+          calories
+        });
+        document.getElementById("message").textContent =
+          `✅ Data saved! Estimated Calories: ${calories} kcal`;
+        document.getElementById("waterInput").value = "";
+        document.getElementById("breakfastInput").value = "";
+        document.getElementById("lunchInput").value = "";
+        document.getElementById("dinnerInput").value = "";
+      } catch (error) {
+        document.getElementById("message").textContent = "❌ Error saving data!";
+        console.error(error);
+      }
+    };
+
+    // View data
+    window.viewWeeklyData = async function () {
+      const historyDiv = document.getElementById("weeklyHistory");
+      historyDiv.innerHTML = "<h3>🗓️ Weekly History</h3>";
+
+      const q = query(collection(db, "healthTracker"), orderBy("date", "desc"), limit(7));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        historyDiv.innerHTML += "<p style='text-align:center;'>No data found for the past 7 days.</p>";
+        return;
+      }
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        historyDiv.innerHTML += `
+          <div class="entry">
+            <strong>Date:</strong> ${data.date} <br/>
+            💧 <strong>Water:</strong> ${data.water} L <br/>
+            🍳 <strong>Breakfast:</strong> ${data.breakfast} <br/>
+            🍛 <strong>Lunch:</strong> ${data.lunch} <br/>
+            🥗 <strong>Dinner:</strong> ${data.dinner} <br/>
+            🔥 <strong>Calories:</strong> ${data.calories || 'N/A'} kcal
+          </div>
+        `;
+      });
+    };
+
+    // Affirmation
+    const affirmations = [
+      "You are strong and capable.",
+      "Every day is a new beginning.",
+      "Your health is your power.",
+      "You are doing your best, and that’s enough.",
+      "Small steps create big results.",
+      "You deserve care and kindness.",
+      "Believe in your strength."
+    ];
+    const todayIndex = new Date().getDay();
+    document.getElementById("dailyAffirmation").textContent = affirmations[todayIndex];
+  </script>
+</body>
+</html>
+

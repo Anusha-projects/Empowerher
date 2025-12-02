@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Delights : Taste of Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --pink:#ff6fa3;        /* primary */
+      --pink-dark:#f24b86;   /* hover */
+      --rose:#ffd6e7;        /* light */
+      --glow:#ffd1ec;        /* card glow */
+      --bg-grad:linear-gradient(135deg,#ffe2ef 0%,#ffd1e8 35%,#f8c0e1 100%);
+      --glass:rgba(255,255,255,.55);
+      --text:#3a2435;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,Segoe UI,Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:var(--bg-grad) fixed;
+      background-size: 200% 200%;
+      animation:bgShift 18s ease-in-out infinite;
+    }
+    @keyframes bgShift{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
+.floaties {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.floaties img {
+  width: 100%;
+  max-width: 300px;    /* Adjust image size */
+  height: auto;
+  border-radius: 20px; /* Rounded corners */
+  object-fit: cover;   /* Ensures it fits well */
+  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+/* Hover Effect */
+.floaties img:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 15px 40px rgba(255, 105, 180, 0.6);
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+ 
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(12px);
+      background:linear-gradient(135deg,rgba(255,111,163,.85),rgba(255,182,193,.70));
+      box-shadow:0 6px 24px rgba(255,111,163,.25);
+    }
+    .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{display:flex;gap:.6rem;align-items:center}
+    .logo{
+      width:36px;height:36px;border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ffe6f1);
+      box-shadow: inset 0 0 20px #fff, 0 6px 18px rgba(255,111,163,.35);
+      position:relative;
+    }
+    .logo:after{content:"🍰";position:absolute;inset:0;display:grid;place-items:center;font-size:20px}
+    .brand h1{font-size:1.3rem;color:#fff;font-weight:700;letter-spacing:.3px}
+    .nav a{color:#fff;text-decoration:none;font-weight:500;margin:0 10px}
+    .nav a:hover{opacity:.9;text-underline-offset:4px;text-decoration:underline}
+
+    /* Hero */
+    .hero{max-width:1200px;margin:22px auto 10px;display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;padding:0 20px}
+    .hero-card{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:22px;padding:28px;box-shadow:0 20px 60px rgba(255,111,163,.25);
+    }
+    .title{font-size:2.2rem;line-height:1.15;margin:0 0 10px;color:#bf2661}
+    .subtitle{opacity:.85;margin-bottom:18px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{border:none;border-radius:999px;padding:12px 18px;font-weight:600;cursor:pointer;transition:.25s;box-shadow:0 8px 24px rgba(242,75,134,.25)}
+    .btn-primary{background:var(--pink);color:#fff}
+    .btn-primary:hover{background:var(--pink-dark)}
+    .btn-ghost{background:#fff;color:var(--pink-dark);border:1px solid #ffd4e8}
+    .btn-ghost:hover{transform:translateY(-1px)}
+
+    .floaties{position:relative;aspect-ratio:1/1;border-radius:22px;background:radial-gradient(120px 120px at 30% 30%,#fff,#ffe6f1 60%,#ffd4ea 100%);overflow:hidden}
+    .floaties span{position:absolute;font-size:34px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.08));animation:float 8s ease-in-out infinite}
+    .floaties span:nth-child(1){left:12%;top:16%;animation-duration:9s}
+    .floaties span:nth-child(2){right:18%;top:28%;animation-duration:7.5s}
+    .floaties span:nth-child(3){left:22%;bottom:14%;animation-duration:8.5s}
+    .floaties span:nth-child(4){right:12%;bottom:18%;animation-duration:7s}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+
+    /* Controls */
+    .controls{max-width:1200px;margin:6px auto 0;padding:0 20px}
+    .pillbar{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}
+    .pill{padding:8px 14px;border-radius:999px;border:1px solid #ffc6dd;background:#fff;cursor:pointer;color:#bf2661;font-weight:600;transition:.2s}
+    .pill.active,.pill:hover{background:#ff6fa3;color:#fff;border-color:#ff6fa3;box-shadow:0 6px 16px rgba(255,111,163,.3)}
+    .search{display:flex;gap:10px;align-items:center}
+    .search input{flex:1;min-width:240px;border-radius:14px;border:1px solid #ffd0e5;padding:12px 14px;background:#fff}
+
+    /* Grid */
+    .grid{max-width:1200px;margin:14px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+    .card{
+      background:rgba(255,255,255,.75);backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.65);border-radius:18px;overflow:hidden;
+      box-shadow:0 10px 30px rgba(255,111,163,.2);transform:translateY(0);transition:.25s;
+      position:relative;
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(255,111,163,.28)}
+    .thumb{width:100%;height:170px;object-fit:cover;display:block}
+    .card-body{padding:12px 14px}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .name{font-weight:700;color:#bf2661}
+    .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .badge{font-size:.72rem;padding:3px 8px;border-radius:999px;background:#ffe6f2;border:1px solid #ffd3e7;color:#c43f79}
+    .desc{font-size:.9rem;opacity:.85;margin:6px 0 8px}
+    .stars{color:#ff9fc2;font-size:.9rem}
+
+    /* action row */
+    .action-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+    .eat-btn{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--pink),var(--pink-dark));color:#fff;font-weight:700;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(242,75,134,.18)}
+    .qty-badge{position:absolute;top:12px;right:12px;background:linear-gradient(90deg,#fff,#fff);padding:6px 8px;border-radius:999px;color:#bf2661;font-weight:700;border:1px solid #ffd0e5;font-size:0.85rem;display:none;box-shadow:0 8px 20px rgba(255,111,163,.08)}
+
+    /* Sell form */
+    .sell{max-width:1200px;margin:28px auto;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .sell .panel{background:var(--glass);border:1px solid rgba(255,255,255,.6);border-radius:18px;padding:18px;box-shadow:0 14px 40px rgba(255,111,163,.22)}
+    .panel h3{margin:0 0 10px;color:#bf2661}
+    .form{display:grid;gap:10px}
+    .form input,.form textarea,.form select{border:1px solid #ffd0e5;border-radius:12px;padding:12px;background:#fff}
+    .preview{border-radius:14px;overflow:hidden;min-height:220px;background:#fff;border:1px dashed #ffc6dd;display:grid;place-items:center;color:#c76190}
+    .floating-cta{position:fixed;right:18px;bottom:18px;z-index:60}
+    .floating-cta .btn{padding:14px 18px}
+
+    /* Dashboard */
+    .dash{max-width:1200px;margin:8px auto 38px;padding:0 20px}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0}
+    .stat{background:var(--glass);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:16px;box-shadow:0 12px 36px rgba(255,111,163,.2)}
+    .stat h4{margin:0 0 6px;color:#bf2661}
+    .progress{height:8px;background:#ffe0ef;border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,#ff7fb0,#ff4e8b)}
+    canvas{width:100%;max-width:100%;height:200px;border-radius:14px;background:#fff;border:1px solid #ffd0e5}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:120}
+    .modal{width:360px;max-width:92%;background:#fff;border-radius:16px;padding:16px;box-shadow:0 30px 60px rgba(0,0,0,.25);border:1px solid #ffdde7}
+    .modal .m-row{display:flex;gap:12px;align-items:center}
+    .modal img{width:84px;height:84px;object-fit:cover;border-radius:10px}
+    .modal h3{margin:0;color:#bf2661;font-size:1.05rem}
+    .qty-control{display:flex;align-items:center;gap:8px;margin-top:10px}
+    .qty-control button{width:34px;height:34px;border-radius:10px;border:none;background:#fff;border:1px solid #ffd0e5;font-weight:700;cursor:pointer}
+    .qty-display{min-width:34px;text-align:center;font-weight:700}
+    .total{margin-top:10px;font-weight:800;color:#bf2661}
+    .modal .confirm{margin-top:12px;width:100%;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--pink),var(--pink-dark));color:#fff;font-weight:800;cursor:pointer}
+
+    /* toast */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,#ffb6d8,#ff88bf);color:#3a2435;padding:10px 16px;border-radius:12px;box-shadow:0 12px 36px rgba(255,111,163,.18);display:none;z-index:130}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0;transform:translateY(10px);transition:all .5s ease}
+    .reveal.show{opacity:1;transform:none}
+
+    footer{max-width:1200px;margin:10px auto 40px;padding:0 20px;opacity:.85}
+
+    /* Responsive */
+    @media (max-width:900px){.hero{grid-template-columns:1fr}.floaties{height:240px}}
+    @media (max-width:680px){.sell{grid-template-columns:1fr}.search input{min-width:0;width:100%}}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand"><div class="logo"></div><h1>Daomai • Women Food Marketplace</h1></div>
+      <div class="links">
+        <a href="#products">Products</a>
+        <a href="#sell">Sell</a>
+        <a href="#dashboard">Dashboard</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-card reveal">
+      <h2 class="title">Sell & Purchase homemade food.<br/>Support women entrepreneurs.</h2>
+      <p class="subtitle">Women-only, food-only marketplace. List your dishes in seconds and reach hungry customers nearby.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#sell">Add Your Dish</a>
+        <a class="btn btn-ghost" href="#products">Browse Foods</a>
+      </div>
+      <p style="margin-top:10px;font-size:.9rem;opacity:.8">Women-only platform • Curated home-cooked items • No cart/checkout in demo</p>
+    </div>
+    <div class="floaties reveal" aria-hidden="true">
+  <img src="enterprenuer.jpeg" alt="Delicious Food" />
+</div>
+
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="controls reveal">
+    <div class="pillbar" id="pillbar"></div>
+    <div class="search">
+      <input id="search" placeholder="Search dishes, e.g. dosa, biryani, chai…" />
+      <button class="btn btn-primary" id="clear">Clear</button>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section id="products" class="grid reveal"></section>    
+
+<section id="sell" class="sell">
+  <!-- Wrapper: form and preview side by side -->
+  <div class="sell-container" 
+       style="display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: nowrap;">
+
+    <!-- Left Side: Add Food Form -->
+    <div class="panel reveal" 
+         style="flex: 1; min-width: 380px; max-width: 450px;">
+      <h3>Add Your Food</h3>
+      <form id="sellForm" class="form" enctype="multipart/form-data">
+        <input id="fName" placeholder="Dish name (e.g. Masala Dosa)" required>
+        <textarea id="fDesc" placeholder="Short description" rows="3" required></textarea>
+        <select id="fCat" required>
+          <option>Breakfast</option>
+          <option>Lunch</option>
+          <option>Snacks</option>
+          <option>Dinner</option>
+          <option>Desserts</option>
+          <option>Beverages</option>
+        </select>
+
+        <!-- Upload Image Input (No Preview) -->
+        <label for="fImg" style="display:block; margin:10px 0 5px; font-weight:bold; color:#ff5e99;">
+          Upload Dish Image:
+        </label>
+        <input id="fImg" type="file" accept="image/*" required
+               style="margin-bottom: 10px; padding: 8px; border-radius: 6px; border: 1px solid #ccc; width: 100%;">
+
+        <input id="fPrice" type="number" min="10" step="1" placeholder="Price (₹)" required>
+        <button class="btn btn-primary" type="submit">Add to Showcase</button>
+      </form>
+    </div>
+
+    <!-- Right Side: Fixed Image (Always Visible) -->
+    <div id="preview" class="panel reveal" 
+         style="flex: 1; min-width: 380px; max-width: 450px; text-align: center;
+                padding: 10px; border: 2px dashed #ff9ecb; border-radius: 12px; background-color: #fff;">
+      <h3>Sell Your Own Food</h3>
+      <img id="previewImg"
+           src="cookingwome.jpeg"
+           alt="Inspirational Food"
+           style="width: 100%; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.2);" />
+    </div>
+  </div>
+</section>
+
+  <div class="floating-cta">
+    <a class="btn btn-primary" href="#sell">＋ Add Your Food</a>
+  </div>
+
+  <!-- DASHBOARD (Demo) -->
+  <section id="dashboard" class="dash">
+    <h2 class="title reveal" style="font-size:1.6rem">Seller Dashboard (Demo)</h2>
+    <div class="stats">
+      <div class="stat reveal"><h4>Total Dishes</h4><div style="font-size:1.8rem;font-weight:700" id="statCount">0</div><div class="progress" aria-hidden="true"><i id="progCount" style="width:0%"></i></div></div>
+      <div class="stat reveal"><h4>Estimated Earnings</h4><div style="font-size:1.8rem;font-weight:700">₹<span id="statEarn">0</span></div><div class="progress"><i id="progEarn" style="width:0%"></i></div></div>
+      <div class="stat reveal"><h4>Demo Sales</h4><div style="font-size:1.8rem;font-weight:700" id="statSales">0</div><div class="progress"><i id="progSales" style="width:0%"></i></div></div>
+    </div>
+    <canvas id="salesChart" class="reveal" aria-label="Line chart of demo sales"></canvas>
+  </section>
+
+  <footer class="reveal">© 2025 Daomai — Women-only homemade food marketplace (Demo)</footer>
+
+  <!-- Modal for Eat -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="m-row">
+        <img id="modalImg" src="" alt="dish">
+        <div>
+          <h3 id="modalTitle">Dish</h3>
+          <div id="modalDesc" style="font-size:.92rem;opacity:.85;margin-top:6px">Description</div>
+          <div style="margin-top:8px;font-weight:700;color:#bf2661">₹<span id="modalPrice">0</span></div>
+        </div>
+      </div>
+
+      <div class="qty-control">
+        <button id="decQty" aria-label="decrease">−</button>
+        <div class="qty-display" id="qtyDisplay">1</div>
+        <button id="incQty" aria-label="increase">+</button>
+        <div style="flex:1;text-align:right;font-size:.95rem;color:#666">Subtotal: <span class="total">₹<span id="modalTotal">0</span></span></div>
+      </div>
+
+      <button class="confirm" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Added to your orders</div>
+  <section id="paymentSection" style="display:none; max-width:400px; margin:20px auto; padding:16px; border:1px solid #ffb6d8; border-radius:12px; background:#fff;">
+  <h3>Payment Options</h3>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="pay-btn" data-method="UPI">UPI</button>
+    <button class="pay-btn" data-method="Paytm">Paytm</button>
+    <button class="pay-btn" data-method="Card">Card</button>
+  </div>
+  <div id="paymentMsg" style="margin-top:10px;color:#bf2661;font-weight:600"></div>
+</section>
+<script>
+    // ===== Dummy Data =====
+    const food = [
+      {name:'Masala Dosa',cat:'Breakfast',desc:'Crispy dosa with spicy potato masala.',img:'masala dosa.jpeg',price:120,rating:4.8,reviews:112,ordered:0},
+      {name:'Idli Sambar',cat:'Breakfast',desc:'Soft idlis with tangy sambar & chutney.',img:'idlisambar.jpeg',price:90,rating:4.7,reviews:87,ordered:0},
+      {name:'Veg Thali',cat:'Lunch',desc:'A wholesome thali with seasonal curries.',img:'vegthali.jpeg',price:220,rating:4.6,reviews:154,ordered:0},
+      {name:'Paneer Butter Masala',cat:'Lunch',desc:'Rich, creamy tomato-based paneer curry.',img:'paneer.jpeg',price:180,rating:4.9,reviews:203,ordered:0},
+      {name:'Samosa',cat:'Snacks',desc:'Crispy pastry stuffed with spiced potatoes.',img:'samosa.jpeg',price:25,rating:4.5,reviews:320,ordered:0},
+      {name:'Momos',cat:'Snacks',desc:'Steamed dumplings with spicy chutney.',img:'momos.jpeg',price:90,rating:4.6,reviews:141,ordered:0},
+      {name:'Hyderabadi Biryani',cat:'Dinner',desc:'Fragrant basmati rice layered with spices.',img:'biryani.jpeg',price:280,rating:4.9,reviews:410,ordered:0},
+      {name:'Roti + Curry Combo',cat:'Dinner',desc:'Fresh phulkas with homestyle curry.',img:'roticurry.jpeg',price:140,rating:4.4,reviews:76,ordered:0},
+      {name:'Gulab Jamun',cat:'Desserts',desc:'Melt-in-mouth khoya dumplings in syrup.',img:'gulab.jpeg',price:120,rating:4.8,reviews:265,ordered:0},
+      {name:'Chocolate Brownie',cat:'Desserts',desc:'Fudgy brownie with a crackly top.',img:'brownie.jpeg',price:150,rating:4.7,reviews:188,ordered:0},
+      {name:'Masala Chai',cat:'Beverages',desc:'Strong, spiced Indian tea with milk.',img:'chai.jpeg',price:30,rating:4.6,reviews:520,ordered:0},
+      {name:'Cold Coffee',cat:'Beverages',desc:'Iced coffee blended to perfection.',img:'cold.jpeg',price:110,rating:4.5,reviews:240,ordered:0},
+      {name:'Eggbonda',cat:'snacks',desc:'Crispy Egg with spicy and crispy.',img:'Eggbonda.jpeg',price:120,rating:4.8,reviews:112,ordered:0}
+    ];
+
+    // ===== Elements =====
+    const grid = document.querySelector('.grid');
+    const pillbar = document.getElementById('pillbar');
+    const search = document.getElementById('search');
+    const clearBtn = document.getElementById('clear');
+
+    // ===== Category Pills =====
+    const categories = ['All','Breakfast','Lunch','Snacks','Dinner','Desserts','Beverages'];
+    let activeCat = 'All';
+    function renderPills(){
+      pillbar.innerHTML = categories.map(cat=>`<button class="pill ${cat===activeCat?'active':''}" data-cat="${cat}">${cat}</button>`).join('');
+      pillbar.querySelectorAll('.pill').forEach(btn=>btn.onclick = ()=>{activeCat = btn.dataset.cat; render();});
+    }
+
+    // ===== Stars =====
+    const starify = r => '★'.repeat(Math.round(r)) + '☆'.repeat(5-Math.round(r));
+
+    // ===== Render Grid (added Eat button & qty badge) =====
+    function cardTemplate(p, idx){
+      return `<article class="card reveal" data-idx="${idx}">
+        <div class="qty-badge" data-qty-badge style="display:${p.ordered? 'block' : 'none'}">${p.ordered ? p.ordered+'×' : ''}</div>
+        <img class="thumb" src="${p.img}" alt="${p.name}">
+        <div class="card-body">
+          <div class="row"><div class="name">${p.name}</div><div class="badge">₹${p.price}</div></div>
+          <div class="badges"><span class="badge">${p.cat}</span><span class="badge">Homemade</span></div>
+          <p class="desc">${p.desc}</p>
+          <div class="row"><span class="stars" aria-label="${p.rating} stars">${starify(p.rating)}</span><small>(${p.reviews})</small></div>
+          <div class="action-row">
+            <button class="eat-btn" data-eat data-idx="${idx}">E A T</button>
+            <div style="font-size:.9rem;color:#777">Quick order • Demo only</div>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    function render(){
+      const q = search.value.trim().toLowerCase();
+      const filtered = food.filter(p => (activeCat==='All'||p.cat===activeCat) && (!q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+      grid.innerHTML = filtered.map((p,i)=>cardTemplate(p, food.indexOf(p))).join('');
+      attachEatHandlers();
+      observeReveals();
+      // Dashboard stats
+      document.getElementById('statCount').textContent = food.length;
+      animateWidth('progCount', Math.min(100, food.length*8));
+      const est = food.reduce((s,p)=>s+p.price*3,0); // demo estimate
+      countUp('statEarn', est, 800);
+      animateWidth('progEarn', 60);
+      const sales = 1280; // demo number
+      countUp('statSales', sales, 800);
+      animateWidth('progSales', 72);
+    }
+
+    clearBtn.onclick = ()=>{search.value='';render()};
+    search.addEventListener('input', render);
+
+    // ===== Eat Modal Logic =====
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalTotal = document.getElementById('modalTotal');
+    const qtyDisplay = document.getElementById('qtyDisplay');
+    const incQty = document.getElementById('incQty');
+    const decQty = document.getElementById('decQty');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const toast = document.getElementById('toast');
+
+    let activeIndex = null;
+    let qty = 1;
+
+    function openModal(index){
+      activeIndex = index;
+      const item = food[index];
+      qty = 1;
+      modalImg.src = item.img;
+      modalTitle.textContent = item.name;
+      modalDesc.textContent = item.desc;
+      modalPrice.textContent = item.price.toLocaleString('en-IN');
+      qtyDisplay.textContent = qty;
+      modalTotal.textContent = (item.price * qty).toLocaleString('en-IN');
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    incQty.onclick = ()=>{
+      qty = Math.min(99, qty + 1);
+      updateQtyUI();
+    };
+    decQty.onclick = ()=>{
+      qty = Math.max(1, qty - 1);
+      updateQtyUI();
+    };
+
+    function updateQtyUI(){
+      qtyDisplay.textContent = qty;
+      const item = food[activeIndex];
+      modalTotal.textContent = (item.price * qty).toLocaleString('en-IN');
+    }
+
+    confirmBtn.addEventListener('click', ()=>{
+      // Demo confirmation — update the ordered quantity on the item and show badge
+      if(activeIndex === null) return;
+      const item = food[activeIndex];
+      item.ordered = (item.ordered || 0) + qty;
+      // update the specific card badge if visible
+      const card = document.querySelector(`.card[data-idx="${activeIndex}"]`);
+      if(card){
+        const badge = card.querySelector('[data-qty-badge]');
+        if(badge){
+          badge.style.display = 'block';
+          badge.textContent = item.ordered + '×';
+        }
+      }
+      showToast(`${qty} × ${item.name} confirmed • ₹${(item.price*qty).toLocaleString('en-IN')}`);
+      closeModal();
+      render(); // refresh stats / grid if needed
+    });
+
+    // Close modal when clicking backdrop (but not modal itself)
+    modalBackdrop.addEventListener('click', (e)=>{
+      if(e.target === modalBackdrop) closeModal();
+    });
+
+    // Attach eat handlers after render
+    function attachEatHandlers(){
+      document.querySelectorAll('[data-eat]').forEach(btn=>{
+        btn.removeEventListener('click', eatClick);
+        btn.addEventListener('click', eatClick);
+      });
+    }
+    function eatClick(e){
+      const idx = Number(e.currentTarget.dataset.idx);
+      openModal(idx);
+    }
+
+    // Toast helper
+    let toastTimer = null;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      if(toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ toast.style.transition = 'opacity .4s'; toast.style.opacity = '0'; setTimeout(()=>toast.style.display='none',400); }, 2800);
+    }
+
+    // ===== Sell Form + Preview =====
+    const fImg = document.getElementById('fImg');
+    const preview = document.getElementById('preview');
+    fImg.addEventListener('input', ()=>{
+      const url = fImg.value.trim();
+      preview.innerHTML = url ? `<img src="${url}" alt="preview" style="max-width:100%;height:auto;display:block">` : 'Image preview appears here';
+    });
+
+    document.getElementById('sellForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const p = {
+        name: document.getElementById('fName').value.trim(),
+        desc: document.getElementById('fDesc').value.trim(),
+        cat: document.getElementById('fCat').value,
+        img: document.getElementById('fImg').value.trim(),
+        price: Number(document.getElementById('fPrice').value||0),
+        rating: (4 + Math.random()).toFixed(1),
+        reviews: Math.floor(20+Math.random()*200),
+        ordered: 0
+      };
+      if(!p.name||!p.img){alert('Please add a name and valid image URL');return}
+      food.unshift(p);
+      e.target.reset();
+      preview.textContent='Image preview appears here';
+      activeCat='All';
+      renderPills();
+      render();
+      window.location.hash = '#products';
+    });
+
+    // ===== Dashboard Mini Chart (Canvas) =====
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const series = [80,120,150,210,180,260,300,340,320,400,380,460]; // demo monthly
+    function drawChart(){
+      const W = ctx.canvas.width = ctx.canvas.clientWidth;
+      const H = ctx.canvas.height = 220;
+      ctx.clearRect(0,0,W,H);
+      // axes
+      ctx.strokeStyle = '#ffd0e5'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(40,20); ctx.lineTo(40,H-30); ctx.lineTo(W-10,H-30); ctx.stroke();
+      // line
+      const max = Math.max(...series)*1.15;
+      const stepX = (W-60)/(series.length-1);
+      ctx.beginPath(); ctx.lineWidth=2; ctx.strokeStyle = '#ff4e8b';
+      series.forEach((v,i)=>{
+        const x = 40 + i*stepX;
+        const y = (H-30) - (v/max)*(H-60);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      // gradient fill
+      const g = ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,'rgba(255,111,163,.35)');
+      g.addColorStop(1,'rgba(255,111,163,0)');
+      ctx.fillStyle = g; ctx.lineTo(W-10,H-30); ctx.lineTo(40,H-30); ctx.closePath(); ctx.fill();
+    }
+    window.addEventListener('resize', drawChart);
+
+    // ===== Utilities (animations) =====
+    function animateWidth(id, to){
+      const el = document.getElementById(id); el.style.width='0%';
+      requestAnimationFrame(()=>{ el.style.transition='width .8s ease'; el.style.width= to+'%'; });
+    }
+    function countUp(id, to, dur){
+      const el = document.getElementById(id); const start = 0; const t0 = performance.now();
+      function tick(t){
+        const k = Math.min(1,(t-t0)/dur);
+        el.textContent = Math.round(start + (to-start)*k).toLocaleString('en-IN');
+        if(k<1) requestAnimationFrame(tick);
+      } requestAnimationFrame(tick);
+    }
+
+    // Reveal on scroll
+    let observer;
+    function observeReveals(){
+      if(observer) observer.disconnect();
+      observer = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+      },{threshold:.12});
+      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    }
+
+    // Init
+    renderPills();
+    render();
+    drawChart();
+    observeReveals();
+
+confirmBtn.addEventListener('click', () => {
+  if(activeIndex === null) return;
+
+  const item = food[activeIndex];
+  item.ordered = (item.ordered || 0) + qty;
+
+  // Update badge
+  const card = document.querySelector(`.card[data-idx="${activeIndex}"]`);
+  if(card){
+    const badge = card.querySelector('[data-qty-badge]');
+    if(badge){
+      badge.style.display = 'block';
+      badge.textContent = item.ordered + '×';
+    }
+  }
+
+  showToast(`${qty} × ${item.name} confirmed • ₹${(item.price*qty).toLocaleString('en-IN')}`);
+
+  closeModal();
+  render(); // refresh grid / stats
+
+  // Redirect to payment page
+  window.open('payment.html', '_blank'); // opens payment in a new tab
+});
+
+  </script>
+</body>
+</html>
+
+

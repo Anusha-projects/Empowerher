@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmpowerHer – Women Jobs & Schemes</title>
+  <style>
+    /* 🌸 General Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: #fff0f5; color: #333; line-height: 1.6; }
+
+    /* 🌸 Header */
+    header {
+      background: linear-gradient(90deg, #e75480, #ff8fab);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 1rem;
+      margin-top: 5px;
+      color: #ffe4ec;
+    }
+
+    /* 🌸 Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 25px 0;
+    }
+    .tabs button {
+      background: #ffc0cb;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .tabs button:hover, .tabs button.active {
+      background: #e75480;
+    }
+
+    /* 🌸 Main Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(231, 84, 128, 0.2);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(231,84,128,0.3);
+    }
+    .card .title {
+      color: #e75480;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    .card .company { color: #555; margin-bottom: 5px; }
+    .card .location, .card .salary { font-size: 0.9rem; color: #777; margin-bottom: 8px; }
+    .card .desc { font-size: 0.9rem; margin-bottom: 12px; }
+    .card a.btn {
+      display: inline-block;
+      background: #e75480;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+    .card a.btn:hover { background: #ff8fab; }
+
+    /* 🌸 Footer */
+    footer {
+      background: #e75480;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    footer a {
+      color: #ffe4ec;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover { color: #fff; text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .tabs button { padding: 8px 14px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌸 HEADER -->
+  <header>
+    <h1>EmpowerHer Job & Scheme Hub</h1>
+    <p>Discover verified job opportunities and schemes exclusively for women</p>
+  </header>
+
+  <!-- 🌸 TABS -->
+  <div class="tabs">
+    <button class="active" onclick="activateTab('Government')">Government Jobs</button>
+    <button onclick="activateTab('Private')">Private Jobs</button>
+    <button onclick="activateTab('WFH')">Work From Home</button>
+    <button onclick="activateTab('Schemes')">Women Schemes</button>
+  </div>
+
+  <!-- 🌸 JOBS GRID -->
+  <div id="contentArea" class="grid"></div>
+
+  <!-- 🌸 FOOTER -->
+  <footer>
+    Made with 💖 by <a href="#">EmpowerHer Team</a> | Stay empowered & independent!
+  </footer>
+
+  <script>
+    const jobsData = [
+      // Government Jobs
+      { title: "Anganwadi Worker", company: "WCD India", type: "Government", location: "All India", salary: "As per norms", desc: "Apply for government-run Anganwadi centers focusing on women's and children's welfare.", link: "https://wdcw.ap.gov.in" },
+      { title: "SSC Women Constable Recruitment", company: "Staff Selection Commission", type: "Government", location: "Nationwide", salary: "₹21,700 - ₹69,100", desc: "Openings for women constables under SSC GD 2025.", link: "https://ssc.gov.in" },
+      { title: "UPSC Civil Services Exam 2025", company: "UPSC", type: "Government", location: "All India", salary: "₹56,100+", desc: "Apply for prestigious government administrative roles. Women candidates encouraged.", link: "https://upsc.gov.in" },
+      { title: "Women Bank Officer", company: "SBI India", type: "Government", location: "Pan India", salary: "₹45,000+", desc: "Join the largest bank in India with special drive for women applicants.", link: "https://sbi.co.in" },
+      { title: "Railway Apprentice", company: "Indian Railways", type: "Government", location: "All India", salary: "₹15,000+", desc: "Skill development and job training for women in technical fields.", link: "https://indianrailways.gov.in" },
+      { title: "AIIMS Nursing Officer", company: "AIIMS", type: "Government", location: "Delhi & other states", salary: "₹35,000+", desc: "Nursing roles for women across AIIMS institutions.", link: "https://aiimsexams.ac.in" },
+      { title: "IBPS Clerk Recruitment (Women)", company: "IBPS", type: "Government", location: "All India", salary: "₹30,000+", desc: "Banking roles under women empowerment drive.", link: "https://ibps.in" },
+      { title: "Postal Assistant", company: "India Post", type: "Government", location: "All India", salary: "₹25,000+", desc: "Opportunities for women in postal services.", link: "https://indiapost.gov.in" },
+      { title: "Defence Nursing Officer", company: "Indian Army", type: "Government", location: "All India", salary: "₹60,000+", desc: "Apply for Military Nursing Services exclusively for women.", link: "https://joinindianarmy.nic.in" },
+      { title: "Women Police Sub-Inspector", company: "State Police Departments", type: "Government", location: "State-wise", salary: "₹35,000+", desc: "Women sub-inspector recruitments are open in multiple states.", link: "https://ncs.gov.in" },
+
+      // Private Jobs
+      { title: "Software Engineer (Women Only)", company: "TCS iON", type: "Private", location: "Bangalore", salary: "₹6 LPA", desc: "Hiring women engineers for full stack development.", link: "https://www.tcs.com/careers" },
+      { title: "Business Analyst", company: "Infosys", type: "Private", location: "Hyderabad", salary: "₹5 LPA", desc: "Analytical & client communication role.", link: "https://www.infosys.com/careers" },
+      { title: "HR Associate", company: "Wipro", type: "Private", location: "Chennai", salary: "₹4 LPA", desc: "Women-centric HR positions with hybrid mode.", link: "https://careers.wipro.com" },
+      { title: "Digital Marketing Specialist", company: "HCLTech", type: "Private", location: "Noida", salary: "₹4.5 LPA", desc: "Digital strategy role open to women candidates.", link: "https://www.hcltech.com/careers" },
+      { title: "Project Manager", company: "Accenture", type: "Private", location: "Gurugram", salary: "₹10 LPA", desc: "Leadership program for women returning to work.", link: "https://www.accenture.com/in-en/careers" },
+      { title: "Graphic Designer", company: "Canva India", type: "Private", location: "Remote", salary: "₹6 LPA", desc: "Creative women-focused hiring initiative.", link: "https://www.canva.com/careers" },
+      { title: "Sales Executive", company: "Nykaa", type: "Private", location: "Mumbai", salary: "₹3.5 LPA", desc: "Join the top women-centric brand Nykaa.", link: "https://careers.nykaa.com" },
+      { title: "Data Scientist Intern", company: "IBM India", type: "Private", location: "Bangalore", salary: "₹30,000/month", desc: "Internship under IBM Women in Tech program.", link: "https://www.ibm.com/in-en/employment/" },
+      { title: "UX/UI Designer", company: "Microsoft India", type: "Private", location: "Hyderabad", salary: "₹10 LPA", desc: "Women-friendly environment with hybrid work.", link: "https://careers.microsoft.com" },
+      { title: "AI Research Intern", company: "Google India", type: "Private", location: "Bangalore", salary: "₹60,000/month", desc: "Women in STEM internship program.", link: "https://careers.google.com" },
+
+      // WFH
+      { title: "Online Tutor (STEM)", company: "Vedantu", type: "WFH", location: "Remote", salary: "₹20,000-₹50,000", desc: "Teach online subjects like Math and Science from home.", link: "https://www.vedantu.com/careers" },
+      { title: "Virtual Assistant", company: "Upwork", type: "WFH", location: "Remote", salary: "₹15,000-₹40,000", desc: "Work-from-home admin & scheduling roles.", link: "https://www.upwork.com" },
+      { title: "Customer Support", company: "Amazon", type: "WFH", location: "Remote India", salary: "₹25,000-₹35,000", desc: "Women-only virtual customer support hiring.", link: "https://www.amazon.jobs" },
+      { title: "Online Counselor", company: "YourDOST", type: "WFH", location: "Remote", salary: "₹20,000+", desc: "Offer emotional & mental health counseling from home.", link: "https://yourdost.com" },
+      { title: "Freelance Content Writer", company: "Fiverr", type: "WFH", location: "Remote", salary: "Variable", desc: "Freelance writing jobs for women professionals.", link: "https://www.fiverr.com" },
+      { title: "Remote Designer", company: "Behance", type: "WFH", location: "Remote", salary: "Project-based", desc: "Upload portfolio & get hired for creative remote jobs.", link: "https://www.behance.net/joblist" },
+      { title: "Voice-over Artist", company: "Freelancer", type: "WFH", location: "Remote", salary: "₹10,000+/project", desc: "Women with good voice skills can earn from home.", link: "https://www.freelancer.in" },
+      { title: "Social Media Manager", company: "LinkedIn", type: "WFH", location: "Remote", salary: "₹25,000+", desc: "Freelance social media management.", link: "https://www.linkedin.com/jobs" },
+      { title: "Transcriptionist", company: "Rev", type: "WFH", location: "Remote", salary: "Flexible", desc: "Listen & type — suitable for homemakers.", link: "https://www.rev.com/freelancers" },
+      { title: "Online Language Tutor", company: "Preply", type: "WFH", location: "Remote", salary: "Variable", desc: "Teach English or regional languages online.", link: "https://preply.com/en/teach" },
+    ];
+
+    const schemesData = [
+  { title: "Kanyashree Prakalpa", desc: "Financial help for girls in West Bengal to pursue education.", link: "https://wbkanyashree.gov.in" },
+  { title: "Beti Bachao Beti Padhao", desc: "National campaign for girls' education and welfare.", link: "https://wcd.gov.in/women/beti-bachao-beti-padhao" },
+  { title: "Mahila E-Haat", desc: "Online platform for women entrepreneurs to sell products.", link: "https://www.msmedinewdelhi.gov.in/en/Mahila%20eHaat.asp" },
+  { title: "Udyogini Scheme", desc: "Loan scheme for women entrepreneurs.", link: "https://www.india.gov.in/udyogini-scheme" },
+  { title: "Stree Shakti Yojana", desc: "Empowers women through self-help groups & entrepreneurship.", link: "https://dwcd.karnataka.gov.in/40/stree-shakthi-scheme/en" },
+  { title: "TREAD Scheme", desc: "Assists women in trade-related entrepreneurship.", link: "https://msme.gov.in" },
+  { title: "Working Women Hostel", desc: "Provides safe accommodation for working women.", link: "https://www.india.gov.in/scheme-working-women-hostel-ministry-women-and-child-development" },
+  { title: "Annapurna Scheme", desc: "Loan up to ₹50,000 for women running food businesses.", link: "https://www.nabard.org" },
+  { title: "STEP Scheme", desc: "Skill development for employability of women.", link: "https://wcd.nic.in" },
+  { title: "Mahila Coir Yojana", desc: "Promotes coir industry among rural women.", link: "https://socialwelfare.vikaspedia.in/viewcontent/social-welfare/women-and-child-development/women-development-1/mahila-coir-yojana?lgn=en" },
+  // Andhra Pradesh Schemes
+  { title: "Mission Shakti", desc: "Provide shelter, vocational training, and rehabilitation for women in difficult circumstances.", link: "https://wdcw.ap.gov.in/Schemes/Shakthi" },
+  { title: "Aadabidda Nidhi Scheme", desc: "Provide financial assistance of ₹1,500 per month to eligible women aged between 18 and 59 years.", link: "https://cleartax.in/s/aadabidda-nidhi-scheme" },
+  { title: "Sakhi Suraksha Initiative", desc: "Offer preventive health screenings and teleconsultation services to self-help group women aged 35 and above in urban areas.", link: "https://timesofindia.indiatimes.com/city/vijayawada/govt-launches-sakhi-suraksha-for-shg-women-in-urban-areas-of-vizag/articleshow/124487420.cms" },
+  { title: "Rapido Rides for Women", desc: "Empower self-help group women by providing electric two- and three-wheelers to offer mobility services through Rapido.", link: "https://timesofindia.indiatimes.com/city/vijayawada/rapido-rides-become-lifelines-for-women-facing-family-crises/articleshow/123509010.cms" }
+];
+
+
+    // Display items
+    function displayItems(type) {
+      const area = document.getElementById("contentArea");
+      area.innerHTML = "";
+      if (type === "Schemes") {
+        schemesData.forEach(item => {
+          area.innerHTML += `
+            <div class="card">
+              <div class="title">${item.title}</div>
+              <div class="desc">${item.desc}</div>
+              <a href="${item.link}" class="btn" target="_blank">Learn More</a>
+            </div>`;
+        });
+      } else {
+        const filtered = jobsData.filter(j => j.type === type);
+        filtered.forEach(job => {
+          area.innerHTML += `
+            <div class="card">
+              <div class="title">${job.title}</div>
+              <div class="company">${job.company}</div>
+              <div class="location">${job.location}</div>
+              <div class="salary">${job.salary}</div>
+              <div class="desc">${job.desc}</div>
+              <a href="${job.link}" class="btn" target="_blank">Apply Now</a>
+            </div>`;
+        });
+      }
+    }
+
+    function activateTab(tabName) {
+      document.querySelectorAll(".tabs button").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      displayItems(tabName);
+    }
+
+    window.onload = () => displayItems("Government");
+  </script>
+</body>
+</html>

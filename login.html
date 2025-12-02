@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women Empowerment - Login / Sign Up</title>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #ffe6f0, #ffb3c6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .wrapper {
+        display: flex;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        max-width: 900px;
+        width: 100%;
+    }
+
+    .left-panel {
+        flex: 1;
+        background: linear-gradient(135deg, #ff7aa8, #ff4f81);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        text-align: center;
+    }
+
+    .left-panel img {
+        max-width: 250px;
+        margin-bottom: 20px;
+    }
+
+    .left-panel h1 {
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+
+    .left-panel p {
+        font-size: 15px;
+        opacity: 0.9;
+    }
+
+    .form-container {
+        flex: 1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    h2 {
+        color: #ff4f81;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 14px;
+        color: #555;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #f7b6d2;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        border-color: #ff4f81;
+        box-shadow: 0 0 5px rgba(255, 79, 129, 0.3);
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        background: #ff4f81;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #e03b6b;
+    }
+
+    .toggle-text {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 15px;
+        color: #ff4f81;
+        cursor: pointer;
+    }
+
+    .toggle-text:hover {
+        text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .wrapper {
+            flex-direction: column;
+            max-width: 400px;
+        }
+        .left-panel {
+            padding: 20px;
+        }
+        .form-container {
+            padding: 20px;
+        }
+        .left-panel img {
+            max-width: 180px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="left-panel">
+        <img src="women.jpg" alt="Empowered Woman">
+
+
+
+        <h1>EmpowerHer</h1>
+        <p>"Empowered women empower the world.  
+        Sign in or join us to be part of the change."</p>
+    </div>
+
+    <div class="form-container" id="form-container">
+        <h2 id="form-title">Login</h2>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email">
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password">
+        </div>
+        <button class="btn" id="submit-btn">Login</button>
+        <div class="toggle-text" id="toggle-form">Don't have an account? Sign Up</div>
+    </div>
+</div>
+
+<script>
+    const toggleForm = document.getElementById("toggle-form");
+    const formContainer = document.getElementById("form-container");
+
+    let isLogin = true;
+
+    toggleForm.addEventListener("click", () => {
+        isLogin = !isLogin;
+        formContainer.innerHTML = `
+            <h2 id="form-title">${isLogin ? "Login" : "Sign Up"}</h2>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter your password">
+            </div>
+            ${!isLogin ? `
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" placeholder="Confirm your password">
+            </div>` : ""}
+            <button class="btn">${isLogin ? "Login" : "Register"}</button>
+            <div class="toggle-text" id="toggle-form">${isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}</div>
+        `;
+        document.getElementById("toggle-form").addEventListener("click", () => toggleForm.click());
+    });
+</script>
+
+</body>
+</html>

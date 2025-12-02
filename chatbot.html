@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Women's Health Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fbe4f1 0%, #ffe6f0 40%, #f9f5ff 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #ffb6c1 0%, transparent 70%);
+      z-index: 0;
+      opacity: 0.4;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      bottom: -120px;
+      right: -120px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #e0bbff 0%, transparent 70%);
+      z-index: 0;
+      opacity: 0.4;
+      animation: floatReverse 12s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(20px); }
+    }
+
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .chatbot {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      padding: 1.2rem;
+    }
+
+    .chatbot h2 {
+      text-align: center;
+      color: #d81b60;
+      margin-bottom: 1rem;
+    }
+
+    .chat-window {
+      height: 360px;
+      overflow-y: auto;
+      background: #fefefe;
+      border-radius: 10px;
+      border: 1px solid #eee;
+      padding: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      margin: 10px 0;
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .user {
+      background: #ffd2e0;
+      align-self: flex-end;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .bot {
+      background: #f0f0f0;
+      align-self: flex-start;
+      text-align: left;
+      margin-right: auto;
+    }
+
+    .typing {
+      font-style: italic;
+      color: #999;
+      font-size: 0.9rem;
+      padding: 5px 10px;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .chatbot {
+        width: 90%;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="chatbot">
+  <h2>🌸 Women's Health Assistant</h2>
+  <div class="chat-window" id="chat-window">
+    <div class="message bot"><strong>Bot:</strong> Hello! I'm here to support your health journey 💕<br>Ask me anything about periods, PCOS, nutrition, stress, or more.</div>
+  </div>
+  <input type="text" id="user-input" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendMessage()">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  const responses = {
+    "hi": "Hi there! How can I assist you with your health today?",
+    "hello": "I'm here to help with women's health questions! Ask me about periods, PCOS, stress, nutrition, or daily health tips.",
+    "im feeling stomachache": "Don't worry, take some rest and stay hydrated. Gentle heat may also help.",
+    "period": "You can track your period by logging your cycle dates regularly. Stay hydrated and rest well during your cycle.",
+    "pcos": "PCOS affects hormones. Regular exercise and a healthy diet can help manage it.",
+    "menopause": "Menopause marks the end of menstrual cycles. Hot flashes, mood swings, and sleep changes are common symptoms.",
+    "thanks": "You're welcome! Remember, your well-being matters 💕",
+    "exercise": "Daily movement like yoga, walking, or dancing can boost both physical and mental health!",
+    "nutrition": "Eat balanced meals with fruits, veggies, whole grains, and protein. Avoid too much sugar and processed food.",
+    "im mental disturbed": "Take deep breaths, talk to someone you trust, or write your feelings. You're not alone 🌼",
+    "anxiety": "Try deep breathing, grounding exercises, or taking a short walk. Anxiety is manageable with care and practice.",
+    "depression": "You're not alone. Talking to a friend or therapist can help. Consider light activity and plenty of rest.",
+    "stress": "Take short breaks, stretch, listen to music, or meditate. Mental rest is as important as physical rest.",
+    "how much water should i take": "Aim to drink 6–8 glasses of water daily. Hydration supports your energy, skin, and digestion.",
+    "how much sleep should i take": "Try to get 7–9 hours of quality sleep. Create a bedtime routine and avoid screens before sleep.",
+    "what about skin care": "Wash your face daily, moisturize, and use sunscreen. Diet and hydration also affect your skin health.",
+    "what about self care": "Self-care can be as simple as resting, saying 'no', or doing something you enjoy.",
+    "suggest healthy habits": "Start with small changes—drink water, eat veggies, get sleep, and move your body every day.",
+    "im having pain": "Where is the pain located? If it's persistent or intense, please consult a medical professional.",
+    "im having headache": "Try drinking water, resting in a dark room, or using a cool compress. Avoid screen time.",
+    "im having back pain": "Gentle stretches or applying heat may help. Avoid lifting heavy things. Rest and posture matter.",
+    "can you give motivation": "Every step you take toward your health counts. You're doing great 💪",
+    "feeling tired": "Fatigue could be due to poor sleep, dehydration, or stress. Rest, hydrate, and try deep breathing.",
+    "can you tell symptoms": "Can you describe your symptoms? I can suggest basic remedies or recommend seeing a doctor.",
+    "doctor": "If your symptoms persist, it's best to consult a healthcare professional for personalized advice.",
+    "default": "I'm not sure how to respond to that. Try asking about periods, PCOS, mental health, or healthy habits."
+  };
+
+  function sendMessage() {
+    const inputBox = document.getElementById('user-input');
+    const chatWindow = document.getElementById('chat-window');
+    const userMessage = inputBox.value.trim().toLowerCase();
+    if (!userMessage) return;
+
+    chatWindow.innerHTML += `<div class="message user"><strong>You:</strong> ${userMessage}</div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    const typingBubble = `<div class="message bot typing" id="typing">Bot is typing...</div>`;
+    chatWindow.innerHTML += typingBubble;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    setTimeout(() => {
+      document.getElementById('typing').remove();
+
+      let botReply = responses["default"];
+      for (const keyword in responses) {
+        if (userMessage.includes(keyword)) {
+          botReply = responses[keyword];
+          break;
+        }
+      }
+
+      chatWindow.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${botReply}</div>`;
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }, 800);
+
+    inputBox.value = "";
+  }
+</script>
+
+</body>
+</html>
