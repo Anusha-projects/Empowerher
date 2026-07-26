@@ -29,9 +29,6 @@ An AI-powered women empowerment platform that provides:
 - Learning Platform
 - Business Booster
 
-## Screenshots
-
-(Add screenshots)
 
 ## Future Enhancements
 
